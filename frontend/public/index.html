@@ -489,156 +489,102 @@
                     </p>
                 </div>
                 
+                <!-- Network Nodes Layout -->
                 <div class="relative">
-                    <!-- Timeline Line -->
-                    <div class="timeline-line hidden md:block"></div>
+                    <!-- SVG Connection Lines -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 0;">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#6d9674;stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:#4a6b50;stop-opacity:0.3" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Lines connecting nodes - will be drawn via CSS -->
+                    </svg>
                     
-                    <!-- Steps -->
-                    <div class="space-y-12 md:space-y-0">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 relative">
                         <!-- Step 1 -->
-                        <div class="fade-in relative md:flex md:items-center md:justify-between md:mb-16">
-                            <div class="md:w-5/12 md:text-right md:pr-12">
-                                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20">
-                                    <span class="text-brand-green font-display font-semibold text-sm mb-2 block">Step 01</span>
-                                    <h3 class="font-display text-xl text-white font-semibold mb-2">
-                                        Submit Workloads
-                                    </h3>
-                                    <p class="text-gray-500 text-sm leading-relaxed">
-                                        Enterprises submit AI inference workloads through our API or dashboard interface.
-                                    </p>
+                        <div class="fade-in flex flex-col items-center text-center relative node-item">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center z-10 relative node-circle">
+                                    <span class="text-brand-light font-bold text-lg">1</span>
                                 </div>
+                                <!-- Connection line to next node (hidden on mobile) -->
+                                <div class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-brand-green/60 to-brand-green/20 transform -translate-y-1/2" style="width: calc(100% + 1rem);"></div>
                             </div>
-                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand-green items-center justify-center z-10">
-                                <span class="text-white font-bold text-sm">1</span>
-                            </div>
-                            <div class="md:w-5/12"></div>
+                            <h3 class="font-display text-lg text-white font-semibold mb-2">Submit Workloads</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Enterprises submit AI inference workloads through our API or dashboard.</p>
                         </div>
                         
                         <!-- Step 2 -->
-                        <div class="fade-in fade-in-delay-1 relative md:flex md:items-center md:justify-between md:mb-16">
-                            <div class="md:w-5/12"></div>
-                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand-green items-center justify-center z-10">
-                                <span class="text-white font-bold text-sm">2</span>
-                            </div>
-                            <div class="md:w-5/12 md:pl-12">
-                                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20">
-                                    <span class="text-brand-green font-display font-semibold text-sm mb-2 block">Step 02</span>
-                                    <h3 class="font-display text-xl text-white font-semibold mb-2">
-                                        Fragment & Schedule
-                                    </h3>
-                                    <p class="text-gray-500 text-sm leading-relaxed">
-                                        Tasks are fragmented into micro-units and scheduled across the distributed node network.
-                                    </p>
+                        <div class="fade-in fade-in-delay-1 flex flex-col items-center text-center relative node-item">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center z-10 relative node-circle">
+                                    <span class="text-brand-light font-bold text-lg">2</span>
                                 </div>
+                                <div class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-brand-green/60 to-brand-green/20 transform -translate-y-1/2" style="width: calc(100% + 1rem);"></div>
                             </div>
+                            <h3 class="font-display text-lg text-white font-semibold mb-2">Fragment & Schedule</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Tasks are fragmented into micro-units and scheduled across the network.</p>
                         </div>
                         
                         <!-- Step 3 -->
-                        <div class="fade-in fade-in-delay-2 relative md:flex md:items-center md:justify-between md:mb-16">
-                            <div class="md:w-5/12 md:text-right md:pr-12">
-                                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20">
-                                    <span class="text-brand-green font-display font-semibold text-sm mb-2 block">Step 03</span>
-                                    <h3 class="font-display text-xl text-white font-semibold mb-2">
-                                        Distributed Execution
-                                    </h3>
-                                    <p class="text-gray-500 text-sm leading-relaxed">
-                                        Nodes execute workloads in parallel, leveraging aggregated consumer hardware resources.
-                                    </p>
+                        <div class="fade-in fade-in-delay-2 flex flex-col items-center text-center relative node-item">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center z-10 relative node-circle">
+                                    <span class="text-brand-light font-bold text-lg">3</span>
                                 </div>
+                                <div class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-brand-green/60 to-brand-green/20 transform -translate-y-1/2" style="width: calc(100% + 1rem);"></div>
                             </div>
-                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand-green items-center justify-center z-10">
-                                <span class="text-white font-bold text-sm">3</span>
-                            </div>
-                            <div class="md:w-5/12"></div>
+                            <h3 class="font-display text-lg text-white font-semibold mb-2">Distributed Execution</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Nodes execute workloads in parallel across the network.</p>
                         </div>
                         
                         <!-- Step 4 -->
-                        <div class="fade-in fade-in-delay-3 relative md:flex md:items-center md:justify-between md:mb-16">
-                            <div class="md:w-5/12"></div>
-                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand-green items-center justify-center z-10">
-                                <span class="text-white font-bold text-sm">4</span>
-                            </div>
-                            <div class="md:w-5/12 md:pl-12">
-                                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20">
-                                    <span class="text-brand-green font-display font-semibold text-sm mb-2 block">Step 04</span>
-                                    <h3 class="font-display text-xl text-white font-semibold mb-2">
-                                        Multi-Node Validation
-                                    </h3>
-                                    <p class="text-gray-500 text-sm leading-relaxed">
-                                        Cryptographic consensus ensures output integrity through redundant verification.
-                                    </p>
+                        <div class="fade-in fade-in-delay-3 flex flex-col items-center text-center relative node-item">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center z-10 relative node-circle">
+                                    <span class="text-brand-light font-bold text-lg">4</span>
                                 </div>
+                                <div class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-brand-green/60 to-brand-green/20 transform -translate-y-1/2" style="width: calc(100% + 1rem);"></div>
                             </div>
+                            <h3 class="font-display text-lg text-white font-semibold mb-2">Multi-Node Validation</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Cryptographic consensus ensures output integrity.</p>
                         </div>
                         
                         <!-- Step 5 -->
-                        <div class="fade-in fade-in-delay-4 relative md:flex md:items-center md:justify-between">
-                            <div class="md:w-5/12 md:text-right md:pr-12">
-                                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20">
-                                    <span class="text-brand-green font-display font-semibold text-sm mb-2 block">Step 05</span>
-                                    <h3 class="font-display text-xl text-white font-semibold mb-2">
-                                        Verified Delivery
-                                    </h3>
-                                    <p class="text-gray-500 text-sm leading-relaxed">
-                                        Consolidated, verified outputs are delivered back to the enterprise with full audit trails.
-                                    </p>
+                        <div class="fade-in fade-in-delay-4 flex flex-col items-center text-center relative node-item">
+                            <div class="relative mb-4">
+                                <div class="w-16 h-16 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center z-10 relative node-circle">
+                                    <span class="text-brand-light font-bold text-lg">5</span>
                                 </div>
                             </div>
-                            <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full bg-brand-green items-center justify-center z-10">
-                                <span class="text-white font-bold text-sm">5</span>
-                            </div>
-                            <div class="md:w-5/12"></div>
+                            <h3 class="font-display text-lg text-white font-semibold mb-2">Verified Delivery</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Verified outputs delivered with full audit trails.</p>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Mobile Timeline -->
-                <div class="md:hidden mt-12 space-y-6">
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center flex-shrink-0">
-                            <span class="text-white font-bold text-xs">1</span>
-                        </div>
-                        <div class="flex-1 p-4 rounded-xl border border-gray-800 bg-gray-900/20">
-                            <h3 class="font-display text-lg text-white font-semibold mb-1">Submit Workloads</h3>
-                            <p class="text-gray-500 text-sm">Enterprises submit AI inference workloads through our API.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center flex-shrink-0">
-                            <span class="text-white font-bold text-xs">2</span>
-                        </div>
-                        <div class="flex-1 p-4 rounded-xl border border-gray-800 bg-gray-900/20">
-                            <h3 class="font-display text-lg text-white font-semibold mb-1">Fragment & Schedule</h3>
-                            <p class="text-gray-500 text-sm">Tasks are fragmented and scheduled across the network.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center flex-shrink-0">
-                            <span class="text-white font-bold text-xs">3</span>
-                        </div>
-                        <div class="flex-1 p-4 rounded-xl border border-gray-800 bg-gray-900/20">
-                            <h3 class="font-display text-lg text-white font-semibold mb-1">Distributed Execution</h3>
-                            <p class="text-gray-500 text-sm">Nodes execute workloads in parallel.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center flex-shrink-0">
-                            <span class="text-white font-bold text-xs">4</span>
-                        </div>
-                        <div class="flex-1 p-4 rounded-xl border border-gray-800 bg-gray-900/20">
-                            <h3 class="font-display text-lg text-white font-semibold mb-1">Multi-Node Validation</h3>
-                            <p class="text-gray-500 text-sm">Cryptographic consensus ensures integrity.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4">
-                        <div class="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center flex-shrink-0">
-                            <span class="text-white font-bold text-xs">5</span>
-                        </div>
-                        <div class="flex-1 p-4 rounded-xl border border-gray-800 bg-gray-900/20">
-                            <h3 class="font-display text-lg text-white font-semibold mb-1">Verified Delivery</h3>
-                            <p class="text-gray-500 text-sm">Outputs delivered with full audit trails.</p>
-                        </div>
-                    </div>
+                    
+                    <!-- Mobile vertical connector lines -->
+                    <style>
+                        @media (max-width: 767px) {
+                            .node-item:not(:last-child)::after {
+                                content: '';
+                                position: absolute;
+                                bottom: -1.5rem;
+                                left: 50%;
+                                transform: translateX(-50%);
+                                width: 2px;
+                                height: 1.5rem;
+                                background: linear-gradient(to bottom, rgba(109, 150, 116, 0.6), rgba(109, 150, 116, 0.2));
+                            }
+                            .node-item {
+                                padding-bottom: 1.5rem;
+                            }
+                        }
+                        .node-circle {
+                            box-shadow: 0 0 20px rgba(109, 150, 116, 0.3);
+                        }
+                    </style>
                 </div>
             </div>
         </section>
