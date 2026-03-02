@@ -35,3 +35,7 @@ yarn-error.log*
 # Cache
 .cache/
 .vercel
+-e 
+# Environment files
+*.env
+*.env.*
