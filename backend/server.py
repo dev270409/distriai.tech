@@ -45,8 +45,8 @@ async def send_email_notification(subject: str, html_content: str):
                     "Content-Type": "application/json"
                 },
                 json={
-                    "from": "DISTRIAI <onboarding@resend.dev>",
-                    "to": "tapesdd@gmail.com",
+                    "from": "DISTRIAI <noreply@distriai.tech>",
+                    "to": "partnerships@distriai.tech",
                     "subject": subject,
                     "html": html_content
                 }
