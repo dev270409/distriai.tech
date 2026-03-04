@@ -1,4 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<div>DISTRIAI</div>);
+// Static site - no React needed
+// This file exists only to satisfy react-scripts
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    import('react').then(React => {
+        import('react-dom/client').then(ReactDOM => {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(React.createElement('div', null, 'DISTRIAI'));
+        });
+    });
+}
