@@ -3,18 +3,13 @@ node_modules/
 .pnp
 .pnp.js
 
-# Build
-dist/
-build/
-.next/
-out/
-
 # Environment
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
+
+# Vercel
+.vercel
 
 # IDE
 .idea/
@@ -34,7 +29,6 @@ yarn-error.log*
 
 # Cache
 .cache/
-.vercel
 -e 
 # Environment files
 *.env
