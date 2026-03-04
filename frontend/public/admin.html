@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -147,41 +147,59 @@
     </div>
 
     <script>
-        let adminPassword = '';
-        
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            adminPassword = document.getElementById('adminPassword').value;
-            
+            const password = document.getElementById('adminPassword').value;
+            const loginError = document.getElementById('loginError');
+            loginError.classList.add('hidden');
+
             try {
-                const response = await fetch('/api/admin?action=stats', {
-                    headers: { 'Authorization': `Bearer ${adminPassword}` }
+                const response = await fetch('/api/admin-login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
                 });
-                
-                if (response.ok) {
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    loadData();
-                } else {
-                    document.getElementById('loginError').classList.remove('hidden');
+
+                if (!response.ok) {
+                    loginError.classList.remove('hidden');
+                    return;
                 }
+
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+                loadData();
             } catch (error) {
-                document.getElementById('loginError').classList.remove('hidden');
+                loginError.classList.remove('hidden');
             }
         });
-        
-        function logout() {
-            adminPassword = '';
+
+        async function logout() {
+            try {
+                await fetch('/api/admin-logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (error) {
+                // Keep logout flow resilient even on network errors.
+            }
+
             document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('adminPassword').value = '';
         }
-        
+
         async function loadData() {
             try {
                 const response = await fetch('/api/admin?action=stats', {
-                    headers: { 'Authorization': `Bearer ${adminPassword}` }
+                    credentials: 'include'
                 });
+                if (!response.ok) {
+                    document.getElementById('adminDashboard').classList.add('hidden');
+                    document.getElementById('loginScreen').classList.remove('hidden');
+                    return;
+                }
                 const data = await response.json();
                 
                 document.getElementById('pilotCount').textContent = data.pilot_count || 0;
@@ -256,9 +274,9 @@
                 await fetch('/api/admin', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${adminPassword}`,
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify({ table, id, status })
                 });
             } catch (error) {
@@ -318,6 +336,28 @@
             div.textContent = text;
             return div.innerHTML;
         }
+
+        async function checkExistingSession() {
+            try {
+                const response = await fetch('/api/admin-session', {
+                    credentials: 'include'
+                });
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+                if (data.authenticated) {
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    loadData();
+                }
+            } catch (error) {
+                // default to login screen
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkExistingSession);
     </script>
 </body>
 </html>

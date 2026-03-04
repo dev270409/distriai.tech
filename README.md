@@ -1,181 +1,146 @@
-# DISTRIAI Infrastructure Portal
+﻿# DISTRIAI.tech
 
-Distributed AI Compute Network - Enterprise-ready infrastructure for decentralized AI inference at scale.
+Functional backend integration for contact flows, Supabase persistence, admin protection, email notifications, analytics events, and Calendly runtime configuration.
 
-## Project Structure
+## File tree
 
+```text
+.
+|-- .env.example
+|-- admin.html
+|-- index.html
+|-- package.json
+|-- vercel.json
+|-- api/
+|   |-- _lib/
+|   |   |-- admin-auth.js
+|   |   |-- env.js
+|   |   |-- request.js
+|   |   `-- supabase.js
+|   |-- admin-login.js
+|   |-- admin-logout.js
+|   |-- admin-session.js
+|   |-- admin.js
+|   |-- newsletter.js
+|   |-- node-waitlist.js
+|   |-- pilot-request.js
+|   `-- public-config.js
+|-- database/
+|   |-- schema.sql
+|   `-- migrations/
+|       `-- 20260305_contact_forms_and_admin.sql
+`-- frontend/public/
+    |-- admin.html
+    `-- index.html
 ```
-/
-├── index.html              # Main landing page
-├── admin.html              # Admin dashboard (password protected)
-├── privacy.html            # Privacy policy
-├── terms.html              # Terms of use
-├── logo.png                # DISTRIAI logo
-├── trees-bg.jpg            # Background image
-├── api/                    # Vercel serverless functions
-│   ├── pilot-request.js    # POST /api/pilot-request
-│   ├── node-waitlist.js    # POST /api/node-waitlist
-│   ├── newsletter.js       # POST /api/newsletter
-│   └── admin.js            # Admin API endpoints
-├── database/
-│   └── schema.sql          # PostgreSQL/Supabase schema
-├── package.json
-├── vercel.json
-├── .env.example
-└── README.md
-```
 
-## Setup Instructions
+## Environment variables
 
-### 1. Supabase Database
-
-1. Create a free account at [supabase.com](https://supabase.com)
-2. Create a new project
-3. Go to SQL Editor and run the contents of `database/schema.sql`
-4. Go to Project Settings > API to get your credentials:
-   - `SUPABASE_URL` - Project URL
-   - `SUPABASE_ANON_KEY` - anon/public key
-   - `SUPABASE_SERVICE_KEY` - service_role key (keep secret!)
-
-### 2. Resend Email (Optional)
-
-1. Create account at [resend.com](https://resend.com)
-2. Add and verify your domain (distriai.tech)
-3. Create an API key
-4. Set `RESEND_API_KEY` in environment variables
-
-### 3. Environment Variables
-
-Copy `.env.example` to `.env` and fill in your values:
+Required in Vercel Project Settings > Environment Variables:
 
 ```bash
-# Supabase Database
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_ANON_KEY=eyJhbGc...
-SUPABASE_SERVICE_KEY=eyJhbGc...
-
-# Resend Email (optional)
-RESEND_API_KEY=re_xxxxx
-
-# Admin Panel
-ADMIN_PASSWORD=your-secure-password-here
-
-# Analytics (optional)
-GA_MEASUREMENT_ID=G-XXXXXXXXXX
-
-# Calendly (optional)
-CALENDLY_URL=https://calendly.com/your-link
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_KEY=
+RESEND_API_KEY=
+ADMIN_PASSWORD=
+GA_MEASUREMENT_ID=
+CALENDLY_URL=
 ```
 
-### 4. Deploy to Vercel
+Notes:
+- `SUPABASE_SERVICE_KEY` is used only in server routes (`/api/*`).
+- Frontend receives only safe runtime config from `/api/public-config`.
+- If `RESEND_API_KEY`, `GA_MEASUREMENT_ID`, or `CALENDLY_URL` are missing, site still works.
 
-1. Push code to GitHub
-2. Import repository on [vercel.com](https://vercel.com)
-3. Add environment variables in Vercel dashboard:
-   - Go to Project Settings > Environment Variables
-   - Add all variables from `.env`
-4. Deploy!
+## Supabase setup
 
-### 5. Custom Domain
+1. Create a Supabase project.
+2. Open SQL editor and run:
+   - `database/migrations/20260305_contact_forms_and_admin.sql`
+3. Confirm tables:
+   - `pilot_requests`
+   - `node_waitlist`
+   - `newsletter_subscribers`
 
-1. Go to Vercel Project Settings > Domains
-2. Add `distriai.tech`
-3. Follow DNS configuration instructions
+## API routes
 
-## Database Schema
+- `POST /api/pilot-request`
+- `POST /api/node-waitlist`
+- `POST /api/newsletter`
+- `POST /api/admin-login`
+- `POST /api/admin-logout`
+- `GET /api/admin-session`
+- `GET /api/admin?action=stats`
+- `POST /api/admin` (status updates)
+- `GET /api/public-config`
 
-### pilot_requests
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary key |
-| name | VARCHAR | Contact name |
-| email | VARCHAR | Contact email |
-| role | VARCHAR | Job role |
-| company | VARCHAR | Company name |
-| message | TEXT | Request message |
-| created_at | TIMESTAMP | Submission time |
-| status | VARCHAR | new/contacted/in_call/closed |
+Implemented:
+- Input validation
+- Empty submission protection
+- Honeypot spam protection
+- Basic in-memory IP rate limiting
+- Safe JSON responses and HTTP status codes
+- Server-side error logging only
 
-### node_waitlist
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary key |
-| name | VARCHAR | Operator name |
-| email | VARCHAR | Contact email |
-| gpu_type | VARCHAR | GPU model |
-| country | VARCHAR | Location |
-| created_at | TIMESTAMP | Submission time |
-| status | VARCHAR | new/contacted/approved/active/inactive |
+## Admin panel
 
-### newsletter_subscribers
-| Column | Type | Description |
-|--------|------|-------------|
-| id | UUID | Primary key |
-| email | VARCHAR | Subscriber email |
-| created_at | TIMESTAMP | Subscription time |
+- Route: `/admin` (mapped in `vercel.json`)
+- Login checks `ADMIN_PASSWORD` via `/api/admin-login`
+- Session stored in secure HttpOnly cookie
+- Dashboard reads:
+  - `pilot_requests`
+  - `node_waitlist`
+  - `newsletter_subscribers`
+- Status update enabled for:
+  - `pilot_requests.status`
+  - `node_waitlist.status`
 
-## API Endpoints
+## Email notifications (Resend)
 
-### POST /api/pilot-request
-Submit pilot program application.
+On new pilot request:
+- To: `partnerships@distriai.tech`
+- Subject: `New Pilot Request – DISTRIAI`
+- Includes: Name, Email, Company, Message
 
-```json
-{
-  "name": "John Doe",
-  "email": "john@company.com",
-  "role": "CTO",
-  "company": "Acme Inc",
-  "message": "Interested in pilot..."
-}
-```
+If `RESEND_API_KEY` is missing, submission still succeeds.
 
-### POST /api/node-waitlist
-Join node operator waitlist.
+## Calendly integration
 
-```json
-{
-  "name": "Jane Doe",
-  "email": "jane@email.com",
-  "gpu_type": "RTX 4090",
-  "country": "USA"
-}
-```
+- Frontend loads `CALENDLY_URL` from `/api/public-config`
+- Sets CTA link dynamically
+- Renders Calendly iframe
+- Shows fallback button if embed fails or stalls
+- Tracks `calendly_click` event (if GA enabled)
 
-### POST /api/newsletter
-Subscribe to newsletter.
+## Analytics
 
-```json
-{
-  "email": "subscriber@email.com"
-}
-```
+If `GA_MEASUREMENT_ID` exists:
+- Injects GA4 script dynamically
+- Tracks:
+  - `pilot_submit`
+  - `node_waitlist_submit`
+  - `newsletter_submit`
+  - `calendly_click`
 
-### GET /api/admin?action=stats
-Get all data (requires authorization header).
+If missing, no analytics script is injected.
+
+## Vercel deployment
+
+1. Push repository to GitHub.
+2. Import project in Vercel.
+3. Add all environment variables from `.env.example`.
+4. Deploy.
+5. Validate:
+   - Submit all three forms
+   - Login at `/admin`
+   - Update statuses
+   - Check Supabase rows
+   - Confirm pilot email notification
+
+## Local run (Vercel runtime)
 
 ```bash
-curl -H "Authorization: Bearer YOUR_ADMIN_PASSWORD" \
-  https://distriai.tech/api/admin?action=stats
+npm install
+npx vercel dev
 ```
-
-## Admin Panel
-
-Access at `/admin.html` with the password set in `ADMIN_PASSWORD`.
-
-Features:
-- View all pilot requests
-- View node waitlist
-- View newsletter subscribers
-- Update status fields
-
-## Security Features
-
-- Honeypot anti-spam fields
-- Rate limiting (5 requests/minute per IP)
-- Server-side validation
-- No secrets exposed client-side
-- Password-protected admin panel
-
-## Contact
-
-partnerships@distriai.tech
