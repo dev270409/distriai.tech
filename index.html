@@ -217,10 +217,10 @@
                     <a href="#" class="flex items-center gap-2">
                         <img src="logo.png" alt="DISTRIAI" class="h-8 w-auto">
                     </a>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#problem" class="text-sm text-gray-400 hover:text-brand-light transition-colors">Problem</a>
-                        <a href="#solution" class="text-sm text-gray-400 hover:text-brand-light transition-colors">Solution</a>
-                        <a href="#how-it-works" class="text-sm text-gray-400 hover:text-brand-light transition-colors">How It Works</a>
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="#about" class="text-sm text-gray-400 hover:text-brand-light transition-colors">About</a>
+                        <a href="#architecture" class="text-sm text-gray-400 hover:text-brand-light transition-colors">Architecture</a>
+                        <a href="#run-node" class="text-sm text-gray-400 hover:text-brand-light transition-colors">Run a Node</a>
                         <a href="#pilot" class="text-sm text-gray-400 hover:text-brand-light transition-colors">Pilot</a>
                         <a href="#contact" class="text-sm text-brand-green hover:text-brand-light transition-colors">Contact</a>
                     </div>
@@ -234,9 +234,9 @@
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden bg-dark border-t border-gray-800/50">
                 <div class="px-6 py-4 space-y-3">
-                    <a href="#problem" class="block text-sm text-gray-400 hover:text-white transition-colors">Problem</a>
-                    <a href="#solution" class="block text-sm text-gray-400 hover:text-white transition-colors">Solution</a>
-                    <a href="#how-it-works" class="block text-sm text-gray-400 hover:text-white transition-colors">How It Works</a>
+                    <a href="#about" class="block text-sm text-gray-400 hover:text-white transition-colors">About</a>
+                    <a href="#architecture" class="block text-sm text-gray-400 hover:text-white transition-colors">Architecture</a>
+                    <a href="#run-node" class="block text-sm text-gray-400 hover:text-white transition-colors">Run a Node</a>
                     <a href="#pilot" class="block text-sm text-gray-400 hover:text-white transition-colors">Pilot</a>
                     <a href="#contact" class="block text-sm text-brand-green hover:text-brand-light transition-colors">Contact</a>
                 </div>
@@ -696,6 +696,522 @@
             </div>
         </section>
 
+        <!-- About Section -->
+        <section id="about" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        About DISTRIAI
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Building the infrastructure layer for decentralized AI compute.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-3">Distributed Compute Model</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            DISTRIAI aggregates idle computational resources from consumer devices worldwide, creating a decentralized network capable of executing AI inference workloads at scale. This model reduces dependency on centralized cloud providers and democratizes access to compute.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-3">Enterprise Focus</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Built for production workloads, DISTRIAI provides enterprise-grade reliability through SLA guarantees, dedicated support channels, and compliance-ready infrastructure. Our pilot program offers hands-on onboarding for qualifying organizations.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-3">Deterministic Execution</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            All tasks are executed with deterministic guarantees through our scheduling layer. Time-bounded execution windows, cryptographic proofs, and multi-node validation ensure consistent and verifiable outputs across the network.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-3 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-3">Validation Architecture</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Every computation is verified through redundant execution across multiple nodes. Our consensus mechanism ensures result integrity while the reputation system maintains network quality through stake-weighted scoring.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Architecture
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        A modular execution layer built for deterministic AI inference.
+                    </p>
+                </div>
+                
+                <!-- Architecture Layers -->
+                <div class="space-y-6 mb-16">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-brand-light font-bold">1</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Task Submission Layer</h3>
+                                <p class="text-gray-500 text-sm">Enterprises submit inference workloads via API. Tasks are validated, fragmented into micro-units, and queued for scheduling.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-brand-light font-bold">2</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Scheduler Layer</h3>
+                                <p class="text-gray-500 text-sm">Reputation-based scheduling assigns tasks to nodes. Stake weight, historical performance, and Sybil scores determine node selection priority.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-brand-light font-bold">3</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Execution Layer</h3>
+                                <p class="text-gray-500 text-sm">Distributed nodes execute assigned micro-tasks within time-bounded windows. Runtime clients ensure isolated, deterministic execution environments.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in fade-in-delay-3 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center flex-shrink-0">
+                                <span class="text-brand-light font-bold">4</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Validation & Reward Layer</h3>
+                                <p class="text-gray-500 text-sm">Multi-node consensus validates outputs. Correct results trigger reward distribution; invalid results invoke slashing logic on staked collateral.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Details -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h4 class="font-display text-white font-semibold mb-3">Reputation-Based Scheduling</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Node selection considers multiple factors: historical task completion rate, average latency, stake amount, and Sybil resistance score. Higher reputation nodes receive priority for high-value tasks.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h4 class="font-display text-white font-semibold mb-3">Stake-Based Weighting</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Economic security through staking. Nodes commit collateral proportional to their desired task volume. Stake weight influences both scheduling priority and reward multipliers.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h4 class="font-display text-white font-semibold mb-3">Proof Abstraction Layer</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Modular proof system supporting multiple verification methods: HASH_ONLY for lightweight validation, EXECUTION_TRACE_HASH for detailed auditing, with FUTURE_ZK_PROOF integration planned.
+                        </p>
+                    </div>
+                    <div class="fade-in fade-in-delay-3 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h4 class="font-display text-white font-semibold mb-3">Slashing Logic</h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            Byzantine fault tolerance through economic penalties. Nodes submitting incorrect proofs or missing execution windows face proportional stake reduction based on offense severity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anti-Sybil Section -->
+        <section id="anti-sybil" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Anti-Sybil Mechanism
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Multi-factor identity verification to ensure network integrity.
+                    </p>
+                </div>
+                
+                <div class="fade-in p-8 rounded-xl border border-gray-800 bg-gray-900/20 mb-8">
+                    <h3 class="font-display text-xl text-white font-semibold mb-6">Sybil Score Components</h3>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">IP Diversity</p>
+                            <p class="text-gray-500 text-sm">Geographic distribution and IP reputation analysis</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">ASN Uniqueness</p>
+                            <p class="text-gray-500 text-sm">Autonomous System Number verification</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">Wallet Uniqueness</p>
+                            <p class="text-gray-500 text-sm">On-chain identity and transaction history</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">Stake Weight</p>
+                            <p class="text-gray-500 text-sm">Economic commitment as identity signal</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">Historical Behavior</p>
+                            <p class="text-gray-500 text-sm">Task completion patterns and reliability</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30">
+                            <p class="text-brand-light font-medium mb-1">Device Fingerprint</p>
+                            <p class="text-gray-500 text-sm">Hardware attestation signals</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in grid md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20 text-center">
+                        <p class="text-3xl font-display font-bold text-brand-light mb-2">0 - 1</p>
+                        <p class="text-gray-400 text-sm">Score Range</p>
+                    </div>
+                    <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20 text-center">
+                        <p class="text-3xl font-display font-bold text-brand-light mb-2">Scheduler</p>
+                        <p class="text-gray-400 text-sm">Weight Factor</p>
+                    </div>
+                    <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/20 text-center">
+                        <p class="text-3xl font-display font-bold text-brand-light mb-2">Rewards</p>
+                        <p class="text-gray-400 text-sm">Multiplier Impact</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Logic Section -->
+        <section id="work-logic" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Work Logic
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Deterministic task execution with cryptographic verification.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-4">Deterministic Tasks</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                            All inference workloads are executed in isolated environments with fixed random seeds and controlled dependencies. This ensures identical inputs produce identical outputs across any node.
+                        </p>
+                        <ul class="text-gray-500 text-sm space-y-2">
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                Fixed execution environment
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                Reproducible model inference
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                Verifiable computation
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-4">Time-Bound Execution</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                            Each task is assigned a maximum execution window. Nodes must submit proofs within the deadline or face penalties. This prevents stalling attacks and ensures predictable latency.
+                        </p>
+                        <ul class="text-gray-500 text-sm space-y-2">
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                Configurable time limits
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                Automatic task reassignment
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span>
+                                SLA enforcement
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="fade-in p-8 rounded-xl border border-gray-800 bg-gray-900/20">
+                    <h3 class="font-display text-lg text-white font-semibold mb-6">Proof Types</h3>
+                    <div class="grid sm:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-lg bg-gray-800/30 border border-gray-700/50">
+                            <p class="text-brand-light font-mono text-sm mb-2">HASH_ONLY</p>
+                            <p class="text-gray-500 text-xs">Lightweight output hash for fast validation. Suitable for trusted node networks.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30 border border-gray-700/50">
+                            <p class="text-brand-light font-mono text-sm mb-2">EXECUTION_TRACE_HASH</p>
+                            <p class="text-gray-500 text-xs">Full execution trace with intermediate states. Enables detailed auditing and dispute resolution.</p>
+                        </div>
+                        <div class="p-4 rounded-lg bg-gray-800/30 border border-gray-700/50">
+                            <p class="text-yellow-400 font-mono text-sm mb-2">FUTURE_ZK_PROOF</p>
+                            <p class="text-gray-500 text-xs">Zero-knowledge proof integration. Currently in research phase for privacy-preserving verification.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Governance Section -->
+        <section id="governance" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Governance
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Phased decentralization roadmap for protocol governance.
+                    </p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-brand-green flex items-center justify-center flex-shrink-0">
+                                <span class="text-white font-bold text-sm">1</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Phase 1: Off-Chain Governance</h3>
+                                <p class="text-gray-500 text-sm">Current phase. Protocol parameters managed by core team with community input through forums and proposals. Focus on rapid iteration and security.</p>
+                                <span class="inline-block mt-2 px-2 py-1 bg-brand-green/20 text-brand-light text-xs rounded">Current</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center flex-shrink-0">
+                                <span class="text-gray-300 font-bold text-sm">2</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Phase 2: Config Versioning</h3>
+                                <p class="text-gray-500 text-sm">Protocol configurations stored on-chain per epoch. Transparent parameter updates with community review periods before activation.</p>
+                                <span class="inline-block mt-2 px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded">Planned</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center flex-shrink-0">
+                                <span class="text-gray-300 font-bold text-sm">3</span>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-lg text-white font-semibold mb-2">Phase 3: On-Chain Governance</h3>
+                                <p class="text-gray-500 text-sm">Full decentralization with stake-weighted voting. Token holders participate in protocol upgrades, parameter changes, and treasury allocation.</p>
+                                <span class="inline-block mt-2 px-2 py-1 bg-gray-800 text-gray-400 text-xs rounded">Future</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in mt-8 p-4 rounded-lg bg-yellow-900/20 border border-yellow-800/50">
+                    <p class="text-yellow-400 text-sm text-center">
+                        <strong>Notice:</strong> There is currently no active token sale. Any claims otherwise are unauthorized.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-5xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Roadmap
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Development milestones for the DISTRIAI infrastructure.
+                    </p>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">Runtime Client</h3>
+                        <p class="text-gray-500 text-sm">Cross-platform execution environment for node operators with GPU auto-detection and resource management.</p>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">Staking Integration</h3>
+                        <p class="text-gray-500 text-sm">On-chain staking contracts for node operators with delegation support and reward claiming.</p>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">Reward Distribution</h3>
+                        <p class="text-gray-500 text-sm">Automated on-chain reward distribution based on task completion and validation performance.</p>
+                    </div>
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">SLA Tiering</h3>
+                        <p class="text-gray-500 text-sm">Configurable service level agreements with different latency, uptime, and priority guarantees.</p>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">Performance Dashboards</h3>
+                        <p class="text-gray-500 text-sm">Real-time monitoring for enterprises and node operators with analytics and alerting.</p>
+                    </div>
+                    <div class="fade-in fade-in-delay-2 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <div class="w-10 h-10 rounded-lg bg-brand-green/20 flex items-center justify-center mb-4">
+                            <svg class="w-5 h-5 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-white font-semibold mb-2">SDK & Documentation</h3>
+                        <p class="text-gray-500 text-sm">Developer tools, API documentation, and integration guides for enterprise adoption.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Run a Node Section -->
+        <section id="run-node" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
+            <div class="max-w-4xl mx-auto">
+                <div class="fade-in mb-16 text-center">
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-5xl text-white font-semibold mb-4">
+                        Run a Node
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">
+                        Contribute your compute resources to the DISTRIAI network and earn rewards.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="fade-in p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-4">Requirements</h3>
+                        <ul class="space-y-3 text-gray-400 text-sm">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>NVIDIA GPU (RTX 3060 or higher recommended)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Stable internet connection (100+ Mbps)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>16GB+ RAM</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Linux or Windows OS</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="fade-in fade-in-delay-1 p-6 rounded-xl border border-gray-800 bg-gray-900/20">
+                        <h3 class="font-display text-lg text-white font-semibold mb-4">Benefits</h3>
+                        <ul class="space-y-3 text-gray-400 text-sm">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span>Earn rewards for completed tasks</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <span>Early access to network features</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                <span>Priority support channel</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-brand-green flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                </svg>
+                                <span>Reputation building from day one</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Node Waitlist Form -->
+                <div class="fade-in p-8 rounded-xl border border-gray-800 bg-gray-900/30">
+                    <h3 class="font-display text-xl text-white font-semibold mb-6 text-center">Join the Early Access Waitlist</h3>
+                    <form id="nodeWaitlistForm" class="max-w-md mx-auto space-y-4">
+                        <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Name *</label>
+                            <input type="text" name="node_name" required
+                                class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
+                                placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Email *</label>
+                            <input type="email" name="node_email" required
+                                class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
+                                placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">GPU Type</label>
+                            <select name="gpu_type"
+                                class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white focus:outline-none focus:border-brand-green/50 transition-colors">
+                                <option value="">Select your GPU</option>
+                                <option value="RTX 3060">NVIDIA RTX 3060</option>
+                                <option value="RTX 3070">NVIDIA RTX 3070</option>
+                                <option value="RTX 3080">NVIDIA RTX 3080</option>
+                                <option value="RTX 3090">NVIDIA RTX 3090</option>
+                                <option value="RTX 4070">NVIDIA RTX 4070</option>
+                                <option value="RTX 4080">NVIDIA RTX 4080</option>
+                                <option value="RTX 4090">NVIDIA RTX 4090</option>
+                                <option value="A100">NVIDIA A100</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-400 mb-2">Country</label>
+                            <input type="text" name="country"
+                                class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
+                                placeholder="Your country">
+                        </div>
+                        <button type="submit" id="nodeSubmitBtn" class="w-full btn-primary px-6 py-3 bg-brand-green text-white font-semibold rounded-lg">
+                            Join Waitlist
+                        </button>
+                        <p id="nodeFormMessage" class="text-sm text-center hidden"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <!-- Pilot Program Section -->
         <section id="pilot" class="py-24 px-6 lg:px-8 border-t border-gray-800/50">
             <div class="max-w-4xl mx-auto">
@@ -750,13 +1266,13 @@
                                 Get in Touch
                             </h3>
                             <div class="space-y-4">
-                                <a href="mailto:info@distriai.tech" class="flex items-center gap-4 text-gray-400 hover:text-brand-light transition-colors group">
+                                <a href="mailto:partnerships@distriai.tech" class="flex items-center gap-4 text-gray-400 hover:text-brand-light transition-colors group">
                                     <div class="w-12 h-12 rounded-lg border border-gray-800 flex items-center justify-center group-hover:border-brand-green/30 transition-colors">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                         </svg>
                                     </div>
-                                    <span>info@distriai.tech</span>
+                                    <span>partnerships@distriai.tech</span>
                                 </a>
                                 <a href="https://linkedin.com/company/distriai" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 text-gray-400 hover:text-brand-light transition-colors group">
                                     <div class="w-12 h-12 rounded-lg border border-gray-800 flex items-center justify-center group-hover:border-brand-green/30 transition-colors">
@@ -778,18 +1294,26 @@
                     
                     <!-- Contact Form -->
                     <div class="fade-in fade-in-delay-1">
-                        <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you for your inquiry. We will be in touch soon.');">
+                        <form id="pilotForm" class="space-y-4">
+                            <!-- Honeypot field (hidden) -->
+                            <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
                             <div>
-                                <label for="name" class="block text-sm text-gray-400 mb-2">Name</label>
+                                <label for="name" class="block text-sm text-gray-400 mb-2">Name *</label>
                                 <input type="text" id="name" name="name" required
                                     class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
                                     placeholder="Your name">
                             </div>
                             <div>
-                                <label for="email" class="block text-sm text-gray-400 mb-2">Email</label>
+                                <label for="email" class="block text-sm text-gray-400 mb-2">Email *</label>
                                 <input type="email" id="email" name="email" required
                                     class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
                                     placeholder="your@company.com">
+                            </div>
+                            <div>
+                                <label for="role" class="block text-sm text-gray-400 mb-2">Role</label>
+                                <input type="text" id="role" name="role"
+                                    class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors"
+                                    placeholder="Your role">
                             </div>
                             <div>
                                 <label for="company" class="block text-sm text-gray-400 mb-2">Company</label>
@@ -799,14 +1323,31 @@
                             </div>
                             <div>
                                 <label for="message" class="block text-sm text-gray-400 mb-2">Message</label>
-                                <textarea id="message" name="message" rows="4" required
+                                <textarea id="message" name="message" rows="4"
                                     class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 transition-colors resize-none"
                                     placeholder="Tell us about your use case..."></textarea>
                             </div>
-                            <button type="submit" class="w-full btn-primary px-6 py-3 bg-brand-green text-white font-semibold rounded-lg">
-                                Send Message
+                            <button type="submit" id="pilotSubmitBtn" class="w-full btn-primary px-6 py-3 bg-brand-green text-white font-semibold rounded-lg">
+                                Request Pilot Access
                             </button>
+                            <p id="pilotFormMessage" class="text-sm text-center hidden"></p>
                         </form>
+                        
+                        <!-- Calendly CTA -->
+                        <div class="mt-8 pt-6 border-t border-gray-800">
+                            <p class="text-gray-400 text-sm text-center mb-4">Prefer to talk directly?</p>
+                            <a href="#" id="calendlyLink" onclick="trackCalendlyClick()" 
+                               class="block w-full text-center px-6 py-3 border border-gray-700 text-gray-300 font-medium rounded-lg hover:border-brand-green hover:text-brand-light transition-colors">
+                                Book a 15-min intro call
+                            </a>
+                            <!-- Calendly embed placeholder -->
+                            <div id="calendlyEmbed" class="hidden mt-4">
+                                <div class="bg-gray-900/50 border border-gray-800 rounded-lg p-8 text-center">
+                                    <p class="text-gray-500 text-sm">Calendly embed will appear here</p>
+                                    <p class="text-gray-600 text-xs mt-2">Configure CALENDLY_URL in environment</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -824,21 +1365,58 @@
                             Distributed AI Compute Infrastructure
                         </p>
                     </div>
-                    <div class="flex items-center gap-6">
-                        <a href="#problem" class="text-sm text-gray-500 hover:text-white transition-colors">Problem</a>
-                        <a href="#solution" class="text-sm text-gray-500 hover:text-white transition-colors">Solution</a>
-                        <a href="#how-it-works" class="text-sm text-gray-500 hover:text-white transition-colors">How It Works</a>
+                    <div class="flex items-center gap-6 flex-wrap justify-center">
+                        <a href="#about" class="text-sm text-gray-500 hover:text-white transition-colors">About</a>
+                        <a href="#architecture" class="text-sm text-gray-500 hover:text-white transition-colors">Architecture</a>
+                        <a href="#run-node" class="text-sm text-gray-500 hover:text-white transition-colors">Run a Node</a>
                         <a href="#contact" class="text-sm text-gray-500 hover:text-white transition-colors">Contact</a>
                     </div>
                 </div>
-                <div class="mt-8 pt-8 border-t border-gray-800/50 text-center">
+                <div class="mt-8 pt-8 border-t border-gray-800/50 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p class="text-gray-600 text-sm">
                         &copy; 2026 DISTRIAI. All rights reserved.
                     </p>
+                    <div class="flex items-center gap-6">
+                        <a href="/privacy.html" class="text-sm text-gray-600 hover:text-gray-400 transition-colors">Privacy Policy</a>
+                        <a href="/terms.html" class="text-sm text-gray-600 hover:text-gray-400 transition-colors">Terms of Use</a>
+                    </div>
+                </div>
+                <!-- Newsletter -->
+                <div class="mt-8 pt-8 border-t border-gray-800/50">
+                    <div class="max-w-md mx-auto text-center">
+                        <p class="text-gray-400 text-sm mb-4">Subscribe to updates</p>
+                        <form id="newsletterForm" class="flex gap-2">
+                            <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+                            <input type="email" name="newsletter_email" required
+                                class="flex-1 px-4 py-2 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50 text-sm"
+                                placeholder="your@email.com">
+                            <button type="submit" class="px-4 py-2 bg-brand-green text-white text-sm font-medium rounded-lg hover:bg-brand-green/80 transition-colors">
+                                Subscribe
+                            </button>
+                        </form>
+                        <p id="newsletterMessage" class="text-sm mt-2 hidden"></p>
+                    </div>
                 </div>
             </div>
         </footer>
     </div>
+    
+    <!-- Google Analytics Placeholder -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+        
+        // Track custom events
+        function trackEvent(eventName, params = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, params);
+            }
+            console.log('Event tracked:', eventName, params);
+        }
+    </script>
     
     <!-- JavaScript -->
     <script>
@@ -866,6 +1444,143 @@
             
             fadeElements.forEach(el => observer.observe(el));
         }
+        
+        // Calendly click tracking
+        function trackCalendlyClick() {
+            trackEvent('calendly_click');
+        }
+        
+        // Pilot Form Handler
+        document.getElementById('pilotForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('pilotSubmitBtn');
+            const msg = document.getElementById('pilotFormMessage');
+            
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            
+            const data = {
+                name: form.name.value,
+                email: form.email.value,
+                role: form.role?.value || '',
+                company: form.company?.value || '',
+                message: form.message?.value || '',
+                honeypot: form.honeypot?.value || ''
+            };
+            
+            try {
+                const response = await fetch('/api/pilot-request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
+                if (response.ok) {
+                    msg.classList.add('text-green-400');
+                    msg.textContent = result.message;
+                    form.reset();
+                    trackEvent('pilot_submit', { company: data.company });
+                } else {
+                    msg.classList.add('text-red-400');
+                    msg.textContent = result.error || 'Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                msg.classList.remove('hidden');
+                msg.classList.add('text-red-400');
+                msg.textContent = 'Network error. Please try again.';
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Request Pilot Access';
+        });
+        
+        // Node Waitlist Form Handler
+        document.getElementById('nodeWaitlistForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('nodeSubmitBtn');
+            const msg = document.getElementById('nodeFormMessage');
+            
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            
+            const data = {
+                name: form.node_name.value,
+                email: form.node_email.value,
+                gpu_type: form.gpu_type?.value || '',
+                country: form.country?.value || '',
+                honeypot: form.honeypot?.value || ''
+            };
+            
+            try {
+                const response = await fetch('/api/node-waitlist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
+                if (response.ok) {
+                    msg.classList.add('text-green-400');
+                    msg.textContent = result.message;
+                    form.reset();
+                    trackEvent('node_waitlist_submit', { gpu_type: data.gpu_type });
+                } else {
+                    msg.classList.add('text-red-400');
+                    msg.textContent = result.error || 'Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                msg.classList.remove('hidden');
+                msg.classList.add('text-red-400');
+                msg.textContent = 'Network error. Please try again.';
+            }
+            
+            btn.disabled = false;
+            btn.textContent = 'Join Waitlist';
+        });
+        
+        // Newsletter Form Handler
+        document.getElementById('newsletterForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const msg = document.getElementById('newsletterMessage');
+            
+            const data = {
+                email: form.newsletter_email.value,
+                honeypot: form.honeypot?.value || ''
+            };
+            
+            try {
+                const response = await fetch('/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
+                if (response.ok) {
+                    msg.classList.add('text-green-400');
+                    msg.textContent = result.message;
+                    form.reset();
+                    trackEvent('newsletter_subscribe');
+                } else {
+                    msg.classList.add('text-red-400');
+                    msg.textContent = result.error || 'Something went wrong.';
+                }
+            } catch (error) {
+                msg.classList.remove('hidden');
+                msg.classList.add('text-red-400');
+                msg.textContent = 'Network error. Please try again.';
+            }
+        });
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
