@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <script type="text/javascript" src="https://embeds.iubenda.com/widgets/28bf43e6-a817-45ec-9ba8-b66b34b2b392.js"></script>
@@ -1402,25 +1402,107 @@
         </footer>
     </div>
     
-    <!-- Google Analytics Placeholder -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
-        
-        // Track custom events
-        function trackEvent(eventName, params = {}) {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', eventName, params);
-            }
-            console.log('Event tracked:', eventName, params);
-        }
-    </script>
-    
     <!-- JavaScript -->
     <script>
+        const publicRuntimeConfig = {
+            gaMeasurementId: '',
+            calendlyUrl: ''
+        };
+
+        function initAnalytics(measurementId) {
+            if (!measurementId) {
+                return;
+            }
+
+            const analyticsScript = document.createElement('script');
+            analyticsScript.async = true;
+            analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+            document.head.appendChild(analyticsScript);
+
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag() {
+                window.dataLayer.push(arguments);
+            };
+
+            window.gtag('js', new Date());
+            window.gtag('config', measurementId);
+        }
+
+        function trackEvent(eventName, params = {}) {
+            if (typeof window.gtag === 'function') {
+                window.gtag('event', eventName, params);
+            }
+        }
+
+        async function loadPublicRuntimeConfig() {
+            try {
+                const response = await fetch('/api/public-config');
+                if (!response.ok) {
+                    return;
+                }
+
+                const config = await response.json();
+                publicRuntimeConfig.gaMeasurementId = config.gaMeasurementId || '';
+                publicRuntimeConfig.calendlyUrl = config.calendlyUrl || '';
+
+                initAnalytics(publicRuntimeConfig.gaMeasurementId);
+                setupCalendly(publicRuntimeConfig.calendlyUrl);
+            } catch (error) {
+                // keep page fully functional even if config endpoint is unavailable
+            }
+        }
+
+        function setupCalendly(calendlyUrl) {
+            const link = document.getElementById('calendlyLink');
+            const embedContainer = document.getElementById('calendlyEmbed');
+            if (!link || !embedContainer) {
+                return;
+            }
+
+            if (!calendlyUrl) {
+                link.href = '#';
+                return;
+            }
+
+            link.href = calendlyUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            embedContainer.classList.remove('hidden');
+
+            embedContainer.innerHTML = `
+                <iframe
+                    title="Calendly booking"
+                    src="${calendlyUrl}"
+                    style="width:100%;min-height:700px;border:0;"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+                <div id="calendlyFallback" class="hidden mt-4 text-center">
+                    <a href="${calendlyUrl}" target="_blank" rel="noopener noreferrer"
+                        class="inline-block px-6 py-3 border border-gray-700 text-gray-300 font-medium rounded-lg hover:border-brand-green hover:text-brand-light transition-colors"
+                        onclick="trackCalendlyClick()">
+                        Open Calendly
+                    </a>
+                </div>
+            `;
+
+            const iframe = embedContainer.querySelector('iframe');
+            const fallback = document.getElementById('calendlyFallback');
+            let iframeLoaded = false;
+
+            iframe?.addEventListener('load', () => {
+                iframeLoaded = true;
+            });
+            iframe?.addEventListener('error', () => {
+                fallback?.classList.remove('hidden');
+            });
+            setTimeout(() => {
+                if (!iframeLoaded) {
+                    fallback?.classList.remove('hidden');
+                }
+            }, 5000);
+        }
+
         // Mobile menu toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
@@ -1571,7 +1653,7 @@
                     msg.classList.add('text-green-400');
                     msg.textContent = result.message;
                     form.reset();
-                    trackEvent('newsletter_subscribe');
+                    trackEvent('newsletter_submit');
                 } else {
                     msg.classList.add('text-red-400');
                     msg.textContent = result.error || 'Something went wrong.';
@@ -1586,6 +1668,7 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initFadeIn();
+            loadPublicRuntimeConfig();
             
             // Hero elements are visible immediately
             document.querySelectorAll('section:first-of-type .fade-in').forEach(el => {
