@@ -4,7 +4,11 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime, timezone
 import os
+import httpx
 from pymongo import MongoClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -21,6 +25,39 @@ MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
 DB_NAME = os.environ.get("DB_NAME", "distriai")
 client = MongoClient(MONGO_URL)
 db = client[DB_NAME]
+
+# Resend API
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+print(f"RESEND configured: {bool(RESEND_API_KEY)}")
+
+async def send_email_notification(subject: str, html_content: str):
+    """Send email notification via Resend"""
+    if not RESEND_API_KEY:
+        print("RESEND_API_KEY not configured, skipping email")
+        return
+    
+    try:
+        async with httpx.AsyncClient() as http_client:
+            response = await http_client.post(
+                "https://api.resend.com/emails",
+                headers={
+                    "Authorization": f"Bearer {RESEND_API_KEY}",
+                    "Content-Type": "application/json"
+                },
+                json={
+                    "from": "DISTRIAI <onboarding@resend.dev>",
+                    "to": "tapesdd@gmail.com",
+                    "subject": subject,
+                    "html": html_content
+                }
+            )
+            print(f"Resend response: {response.status_code} - {response.text}")
+            if response.status_code == 200:
+                print(f"Email sent: {subject}")
+            else:
+                print(f"Email failed: {response.text}")
+    except Exception as e:
+        print(f"Email error: {e}")
 
 # Models
 class PilotRequest(BaseModel):
@@ -93,6 +130,20 @@ async def submit_pilot_request(data: PilotRequest, request: Request):
     
     result = db.pilot_requests.insert_one(doc)
     
+    # Send email notification
+    await send_email_notification(
+        subject=f"New Pilot Request from {data.company or data.name}",
+        html_content=f"""
+        <h2>New Pilot Program Request</h2>
+        <p><strong>Name:</strong> {data.name}</p>
+        <p><strong>Email:</strong> {data.email}</p>
+        <p><strong>Role:</strong> {data.role or 'Not specified'}</p>
+        <p><strong>Company:</strong> {data.company or 'Not specified'}</p>
+        <p><strong>Message:</strong></p>
+        <p>{data.message or 'No message'}</p>
+        """
+    )
+    
     return {
         "success": True,
         "message": "Pilot request submitted successfully. We will contact you within 48 hours."
@@ -120,6 +171,18 @@ async def submit_node_waitlist(data: NodeWaitlist, request: Request):
     }
     
     db.node_waitlist.insert_one(doc)
+    
+    # Send email notification
+    await send_email_notification(
+        subject=f"New Node Operator: {data.name}",
+        html_content=f"""
+        <h2>New Node Waitlist Registration</h2>
+        <p><strong>Name:</strong> {data.name}</p>
+        <p><strong>Email:</strong> {data.email}</p>
+        <p><strong>GPU Type:</strong> {data.gpu_type or 'Not specified'}</p>
+        <p><strong>Country:</strong> {data.country or 'Not specified'}</p>
+        """
+    )
     
     return {
         "success": True,
