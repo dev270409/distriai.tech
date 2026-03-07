@@ -1,5 +1,5 @@
-﻿import { createClient } from '@supabase/supabase-js';
-import { getEnv } from './env.js';
+import { createClient } from '@supabase/supabase-js';
+import { getEnv, getFirstEnv } from './env.js';
 
 let serviceClient;
 
@@ -9,7 +9,9 @@ export function getServiceSupabase() {
   }
 
   const supabaseUrl = getEnv('SUPABASE_URL', { required: true });
-  const supabaseServiceKey = getEnv('SUPABASE_SERVICE_KEY', { required: true });
+  const supabaseServiceKey = getFirstEnv(['SUPABASE_SERVICE_KEY', 'SUPABASE_SERVICE_ROLE_KEY'], {
+    required: true
+  });
 
   serviceClient = createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
