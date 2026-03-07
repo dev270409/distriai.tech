@@ -1337,7 +1337,7 @@
                         <!-- Calendly CTA -->
                         <div class="mt-8 pt-6 border-t border-gray-800">
                             <p class="text-gray-400 text-sm text-center mb-4">Prefer to talk directly?</p>
-                            <a href="#" id="calendlyLink" onclick="trackCalendlyClick()" 
+                            <a href="#" id="calendlyLink" onclick="return trackCalendlyClick()" 
                                class="block w-full text-center px-6 py-3 border border-gray-700 text-gray-300 font-medium rounded-lg hover:border-brand-green hover:text-brand-light transition-colors">
                                 Book a 15-min intro call
                             </a>
@@ -1434,6 +1434,28 @@
             }
         }
 
+        async function parseApiResponse(response) {
+            let payload = null;
+
+            try {
+                payload = await response.json();
+            } catch (error) {
+                payload = null;
+            }
+
+            if (payload && typeof payload === 'object') {
+                return payload;
+            }
+
+            if (!response.ok) {
+                return {
+                    error: `Request failed (${response.status}). Please check server configuration.`
+                };
+            }
+
+            return {};
+        }
+
         async function loadPublicRuntimeConfig() {
             try {
                 const response = await fetch('/api/public-config');
@@ -1461,6 +1483,7 @@
 
             if (!calendlyUrl) {
                 link.href = '#';
+                link.title = 'Calendly not configured yet';
                 return;
             }
 
@@ -1480,7 +1503,7 @@
                 <div id="calendlyFallback" class="hidden mt-4 text-center">
                     <a href="${calendlyUrl}" target="_blank" rel="noopener noreferrer"
                         class="inline-block px-6 py-3 border border-gray-700 text-gray-300 font-medium rounded-lg hover:border-brand-green hover:text-brand-light transition-colors"
-                        onclick="trackCalendlyClick()">
+                        onclick="return trackCalendlyClick()">
                         Open Calendly
                     </a>
                 </div>
@@ -1530,7 +1553,12 @@
         
         // Calendly click tracking
         function trackCalendlyClick() {
+            const link = document.getElementById('calendlyLink');
             trackEvent('calendly_click');
+            if (!link?.href || link.href.endsWith('#')) {
+                return false;
+            }
+            return true;
         }
         
         // Pilot Form Handler
@@ -1559,7 +1587,7 @@
                     body: JSON.stringify(data)
                 });
                 
-                const result = await response.json();
+                const result = await parseApiResponse(response);
                 
                 msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
                 if (response.ok) {
@@ -1606,7 +1634,7 @@
                     body: JSON.stringify(data)
                 });
                 
-                const result = await response.json();
+                const result = await parseApiResponse(response);
                 
                 msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
                 if (response.ok) {
@@ -1646,7 +1674,7 @@
                     body: JSON.stringify(data)
                 });
                 
-                const result = await response.json();
+                const result = await parseApiResponse(response);
                 
                 msg.classList.remove('hidden', 'text-red-400', 'text-green-400');
                 if (response.ok) {
