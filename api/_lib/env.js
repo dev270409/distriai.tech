@@ -15,11 +15,26 @@ export function getEnv(name, { required = false } = {}) {
   return value;
 }
 
+export function getFirstEnv(names, { required = false } = {}) {
+  for (const name of names) {
+    const value = normalizeEnvValue(process.env[name]);
+    if (value) {
+      return value;
+    }
+  }
+
+  if (required) {
+    throw new Error(`Missing required environment variable. Tried: ${names.join(', ')}`);
+  }
+
+  return '';
+}
+
 export function getPublicRuntimeConfig() {
   return {
     gaMeasurementId: getEnv('GA_MEASUREMENT_ID'),
-    calendlyUrl: getEnv('CALENDLY_URL'),
-    supabaseUrl: getEnv('SUPABASE_URL'),
-    supabaseAnonKey: getEnv('SUPABASE_ANON_KEY')
+    calendlyUrl: getFirstEnv(['CALENDLY_URL', 'CALENDLY_LINK', 'NEXT_PUBLIC_CALENDLY_URL']),
+    supabaseUrl: getFirstEnv(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL']),
+    supabaseAnonKey: getFirstEnv(['SUPABASE_ANON_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'])
   };
 }
