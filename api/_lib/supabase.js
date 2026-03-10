@@ -8,7 +8,7 @@ export function getServiceSupabase() {
     return serviceClient;
   }
 
-  const supabaseUrl = getFirstEnv(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL'], { required: true });
+  const supabaseUrl = getEnv('SUPABASE_URL', { required: true });
   const supabaseServiceKey = getFirstEnv(['SUPABASE_SERVICE_KEY', 'SUPABASE_SERVICE_ROLE_KEY'], {
     required: true
   });
