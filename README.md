@@ -53,8 +53,6 @@ CALENDLY_LINK=
 Notes:
 - `SUPABASE_SERVICE_KEY` is used in server routes (`/api/*`).
 - `SUPABASE_SERVICE_ROLE_KEY` is also accepted as fallback if that is the key name used in your dashboard.
-- `NEXT_PUBLIC_SUPABASE_URL` is accepted as fallback for server routes if `SUPABASE_URL` is not set.
-- `SUPABASE_URL` must be the Supabase project URL (`https://<project-ref>.supabase.co`), not a Postgres connection string.
 - `CALENDLY_LINK` and `NEXT_PUBLIC_CALENDLY_URL` are accepted as fallbacks to `CALENDLY_URL`.
 - Frontend receives only safe runtime config from `/api/public-config`.
 - If `RESEND_API_KEY`, `GA_MEASUREMENT_ID`, or `CALENDLY_URL` are missing, site still works.
