@@ -121,10 +121,25 @@
         downloadBtn.disabled = !task.audit_trail;
       }
 
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+      async function safeJson(response) {
+        try {
+          return await response.json();
+        } catch {
+          return {};
+        }
+      }
+
+      async function fetchStatus(taskId) {
+        const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
+        const payload = await safeJson(res);
+        if (!res.ok) throw new Error(payload.error || `Unable to fetch task status (HTTP ${res.status})`);
+
       async function fetchStatus(taskId) {
         const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Unable to fetch task status');
+ main
         return payload.task;
       }
 
@@ -138,8 +153,17 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_id: imageId })
           });
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+          const payload = await safeJson(res);
+          if (!res.ok) throw new Error(payload.error || `Unable to start demo task (HTTP ${res.status})`);
+
+          if (payload.warning) {
+            showError(payload.warning);
+          }
+
           const payload = await res.json();
           if (!res.ok) throw new Error(payload.error || 'Unable to start demo task');
+ main
 
           renderTask(payload.task);
           if (pollTimer) clearInterval(pollTimer);
