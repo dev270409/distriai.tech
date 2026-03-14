@@ -40,10 +40,17 @@ Usa `frontend/src/lib/demoTaskClient.js`:
 - `subscribeToDemoTask(taskId, { onUpdate, onCompleted, onError })`
 
 Questa utility permette di mostrare avanzamento realtime della pipeline nella dashboard.
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
 
 
 ## Nota operativa
 
 Se Supabase non è configurato correttamente o la migration `20260314_demo_tasks.sql` non è stata eseguita, `POST /api/demo/start-task` avvia comunque la demo in modalità temporanea `in-memory` e ritorna un campo `warning` nella risposta.
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
 La pagina `pilot-demo.html` include anche una simulazione locale lato client come fallback UX se `/api/demo/start-task` non è raggiungibile, così il pulsante **Start Demo Task** continua a mostrare avanzamento anche in ambienti statici senza API runtime.
+
+ main

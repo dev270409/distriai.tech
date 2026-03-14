@@ -67,6 +67,7 @@
     <script>
       const API_BASE = '/api/demo';
       const STEPS = ['SUBMITTING', 'FRAGMENTING', 'SCHEDULING', 'EXECUTING', 'VALIDATING', 'COMPLETED'];
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
       const STAGE_WINDOWS_MS = {
         SUBMITTING: 0,
         FRAGMENTING: 4000,
@@ -80,6 +81,11 @@
       let pollTimer = null;
       let localMode = false;
 
+
+      let currentTask = null;
+      let pollTimer = null;
+ main
+
       const stepsEl = document.getElementById('steps');
       const progressBarEl = document.getElementById('progressBar');
       const progressLabelEl = document.getElementById('progressLabel');
@@ -91,6 +97,7 @@
       const errorEl = document.getElementById('error');
       const taskMetaEl = document.getElementById('taskMeta');
       const downloadBtn = document.getElementById('downloadAudit');
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
       const startBtn = document.getElementById('startBtn');
 
       function setLoading(isLoading) {
@@ -99,6 +106,8 @@
         startBtn.textContent = isLoading ? 'Starting...' : 'Start Demo Task';
       }
 
+ main
+
       function showError(message) {
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
@@ -106,7 +115,10 @@
 
       function clearError() {
         errorEl.classList.add('hidden');
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
         errorEl.textContent = '';
+
+ main
       }
 
       function renderSteps(status) {
@@ -124,7 +136,11 @@
         consensusHashEl.textContent = task.audit_trail?.hashes?.consensus_hash || '-';
         progressBarEl.style.width = `${task.progress_pct || 0}%`;
         progressLabelEl.textContent = `${task.progress_pct || 0}%`;
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
         taskMetaEl.textContent = `task_id: ${task.id}${localMode ? ' (local mode)' : ''}`;
+
+        taskMetaEl.textContent = `task_id: ${task.id}`;
+ main
         renderSteps(task.status);
 
         nodesEl.innerHTML = (task.node_logs?.scheduling?.selected_nodes || []).slice(0, 4).map((node) =>
@@ -138,6 +154,7 @@
         downloadBtn.disabled = !task.audit_trail;
       }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
       function randomId(prefix) {
         return `${prefix}-${Math.random().toString(16).slice(2, 10)}`;
       }
@@ -203,6 +220,9 @@
         }, 1000);
       }
 
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
       async function safeJson(response) {
         try {
           return await response.json();
@@ -215,6 +235,15 @@
         const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
         const payload = await safeJson(res);
         if (!res.ok) throw new Error(payload.error || `Unable to fetch task status (HTTP ${res.status})`);
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+
+      async function fetchStatus(taskId) {
+        const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Unable to fetch task status');
+ main
+ main
         return payload.task;
       }
 
@@ -222,26 +251,41 @@
         clearError();
         const imageId = Number(document.getElementById('imageId').value);
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
         if (!Number.isInteger(imageId) || imageId < 1 || imageId > 1000) {
           showError('Image ID deve essere un intero tra 1 e 1000.');
           return;
         }
 
         setLoading(true);
+
+ main
         try {
           const res = await fetch(`${API_BASE}/start-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_id: imageId })
           });
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
           const payload = await safeJson(res);
           if (!res.ok) throw new Error(payload.error || `Unable to start demo task (HTTP ${res.status})`);
 
           localMode = payload.storage === 'memory';
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+          const payload = await safeJson(res);
+          if (!res.ok) throw new Error(payload.error || `Unable to start demo task (HTTP ${res.status})`);
+
+ main
           if (payload.warning) {
             showError(payload.warning);
           }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+          const payload = await res.json();
+          if (!res.ok) throw new Error(payload.error || 'Unable to start demo task');
+ main
           renderTask(payload.task);
           if (pollTimer) clearInterval(pollTimer);
           pollTimer = setInterval(async () => {
@@ -255,6 +299,7 @@
             }
           }, 1500);
         } catch (err) {
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
           showError(`API non disponibile: avvio simulazione locale. (${err.message})`);
           startLocalSimulation(buildLocalTask(imageId));
         } finally {
@@ -263,6 +308,13 @@
       }
 
       startBtn.addEventListener('click', startTask);
+
+          showError(err.message);
+        }
+      }
+
+      document.getElementById('startBtn').addEventListener('click', startTask);
+ main
       downloadBtn.addEventListener('click', () => {
         if (!currentTask?.audit_trail) return;
         const blob = new Blob([JSON.stringify(currentTask.audit_trail, null, 2)], { type: 'application/json' });

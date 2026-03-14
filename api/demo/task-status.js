@@ -1,10 +1,37 @@
 import { getServiceSupabase } from '../_lib/supabase.js';
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
 import { getMemoryTask, updateMemoryTask } from '../_lib/demo-task-store.js';
 import { getClientIp, isRateLimited, setCors } from '../_lib/request.js';
 import { getTaskProjection } from '../_lib/demo-simulation.js';
 
 const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+
+import { getClientIp, isRateLimited, setCors } from '../_lib/request.js';
+import { getTaskProjection } from '../_lib/demo-simulation.js';
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+
+ codex/integrate-pilot-demo-for-1000-images-cwnjh6
+const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+
+codex/integrate-pilot-demo-for-1000-images
+const UUID_V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+main
+ 
 export default async function handler(req, res) {
   setCors(res, ['GET', 'OPTIONS']);
 
@@ -28,6 +55,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'task_id query parameter is required.' });
     }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
     if (!UUID_V4_RE.test(taskId)) {
       return res.status(400).json({ error: 'task_id must be a valid UUID.' });
     }
@@ -42,6 +73,30 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, task: projectedMemoryTask, storage: 'memory' });
     }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
+ codex/integrate-pilot-demo-for-1000-images-cwnjh6
+
+ codex/integrate-pilot-demo-for-1000-images
+ main
+ if (!UUID_V4_RE.test(taskId)) {
+      return res.status(400).json({ error: 'task_id must be a valid UUID.' });
+    }
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
+ codex/integrate-pilot-demo-for-1000-images-cwnjh6
+
+
+ 
+ main
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('demo_tasks')
@@ -56,6 +111,20 @@ export default async function handler(req, res) {
     const projectedTask = getTaskProjection(data);
 
     if (projectedTask.status !== data.status) {
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
+ codex/integrate-pilot-demo-for-1000-images-cwnjh6
+
+ codex/integrate-pilot-demo-for-1000-images
+ main
+ 
+ main
       const { error: updateError } = await supabase
         .from('demo_tasks')
         .update({ status: projectedTask.status })
@@ -64,11 +133,38 @@ export default async function handler(req, res) {
       if (updateError) {
         console.error('demo_tasks status update error:', updateError);
       }
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
     }
 
     return res.status(200).json({ success: true, task: projectedTask, storage: 'supabase' });
   } catch (error) {
     console.error('demo/task-status error:', error);
     return res.status(500).json({ error: `Failed to fetch task status: ${error.message}` });
+
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
+ codex/integrate-pilot-demo-for-1000-images-cwnjh6
+
+
+      await supabase
+        .from('demo_tasks')
+        .update({ status: projectedTask.status })
+        .eq('id', taskId);
+
+main
+    }
+
+    return res.status(200).json({ success: true, task: projectedTask });
+  } catch (error) {
+    console.error('demo/task-status error:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+ main
   }
 }

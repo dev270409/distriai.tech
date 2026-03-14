@@ -1,4 +1,4 @@
-﻿-- DISTRIAI Database Schema
+-- DISTRIAI Database Schema
 -- Run this in Supabase SQL Editor
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -60,6 +60,18 @@ CREATE TABLE IF NOT EXISTS demo_tasks (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+
+ codex/integrate-pilot-demo-for-1000-images-tbeo1c
+
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
+codex/integrate-pilot-demo-for-1000-images-cwnjh6
+
+ codex/integrate-pilot-demo-for-1000-images
+ main
 
 
 CREATE INDEX IF NOT EXISTS demo_tasks_status_idx ON demo_tasks (status);
