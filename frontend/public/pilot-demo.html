@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DISTRIAI · Pilot Demo Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <main class="max-w-6xl mx-auto p-6 space-y-6">
+      <header class="space-y-2">
+        <p class="text-xs uppercase tracking-[0.24em] text-emerald-300">DISTRIAI Pilot Program</p>
+        <h1 class="text-3xl font-semibold">Dashboard Demo (1000 immagini)</h1>
+        <p class="text-slate-300 max-w-3xl">
+          Simulatore frontend del workflow distribuito: Submission/Fragmentation, Scheduling deterministico,
+          Execution isolata, Multi-Node Validation e Verified Delivery con audit trail.
+        </p>
+      </header>
+
+      <section class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 md:p-5">
+        <div class="flex flex-wrap gap-3 items-end">
+          <label class="grid gap-1 text-sm">
+            <span class="text-slate-400">Image ID (1-1000)</span>
+            <input id="imageId" type="number" min="1" max="1000" value="1" class="w-40 rounded-lg bg-slate-950 border border-slate-700 px-3 py-2" />
+          </label>
+          <button id="startBtn" class="rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold px-4 py-2">Start Demo Task</button>
+          <span id="taskMeta" class="text-sm text-slate-400"></span>
+        </div>
+        <p id="error" class="text-rose-300 text-sm mt-3 hidden"></p>
+      </section>
+
+      <section class="grid lg:grid-cols-2 gap-6">
+        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 md:p-5">
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-medium">Pipeline</h2>
+            <span id="progressLabel" class="text-sm text-slate-300">0%</span>
+          </div>
+          <div class="mt-3 h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-emerald-400" style="width:0%"></div>
+          </div>
+          <ol id="steps" class="mt-4 space-y-2 text-sm"></ol>
+        </article>
+
+        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 md:p-5 space-y-3">
+          <h2 class="text-xl font-medium">Task Data</h2>
+          <p class="text-sm text-slate-300">Status: <strong id="status">SUBMITTING</strong></p>
+          <p class="text-sm text-slate-300">Image URL: <span id="imageUrl">-</span></p>
+          <p class="text-sm text-slate-300">Consensus hash: <span id="consensusHash">-</span></p>
+          <div class="pt-2">
+            <button id="downloadAudit" disabled class="rounded-lg border border-slate-700 px-3 py-2 text-sm disabled:opacity-50">Download Audit Trail</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid lg:grid-cols-2 gap-6">
+        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 md:p-5">
+          <h3 class="font-medium mb-3">Selected Nodes</h3>
+          <ul id="nodes" class="text-sm space-y-2 text-slate-300"></ul>
+        </article>
+        <article class="bg-slate-900/70 border border-slate-800 rounded-xl p-4 md:p-5">
+          <h3 class="font-medium mb-3">Execution Logs</h3>
+          <ul id="logs" class="text-sm space-y-2 text-slate-300"></ul>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const API_BASE = '/api/demo';
+      const STEPS = ['SUBMITTING', 'FRAGMENTING', 'SCHEDULING', 'EXECUTING', 'VALIDATING', 'COMPLETED'];
+
+      let currentTask = null;
+      let pollTimer = null;
+
+      const stepsEl = document.getElementById('steps');
+      const progressBarEl = document.getElementById('progressBar');
+      const progressLabelEl = document.getElementById('progressLabel');
+      const statusEl = document.getElementById('status');
+      const imageUrlEl = document.getElementById('imageUrl');
+      const consensusHashEl = document.getElementById('consensusHash');
+      const nodesEl = document.getElementById('nodes');
+      const logsEl = document.getElementById('logs');
+      const errorEl = document.getElementById('error');
+      const taskMetaEl = document.getElementById('taskMeta');
+      const downloadBtn = document.getElementById('downloadAudit');
+
+      function showError(message) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+      }
+
+      function clearError() {
+        errorEl.classList.add('hidden');
+      }
+
+      function renderSteps(status) {
+        const activeIndex = STEPS.indexOf(status);
+        stepsEl.innerHTML = STEPS.map((step, index) => {
+          const cls = index < activeIndex ? 'text-emerald-300' : index === activeIndex ? 'text-blue-300' : 'text-slate-500';
+          return `<li class="${cls}">${index + 1}. ${step}</li>`;
+        }).join('');
+      }
+
+      function renderTask(task) {
+        currentTask = task;
+        statusEl.textContent = task.status;
+        imageUrlEl.textContent = task.image_url || '-';
+        consensusHashEl.textContent = task.audit_trail?.hashes?.consensus_hash || '-';
+        progressBarEl.style.width = `${task.progress_pct || 0}%`;
+        progressLabelEl.textContent = `${task.progress_pct || 0}%`;
+        taskMetaEl.textContent = `task_id: ${task.id}`;
+        renderSteps(task.status);
+
+        nodesEl.innerHTML = (task.node_logs?.scheduling?.selected_nodes || []).slice(0, 4).map((node) =>
+          `<li><strong>${node.node_id}</strong> · rep ${node.reputation} · sybil ${node.sybil_score} · stake ${node.stake_weight}</li>`
+        ).join('') || '<li class="text-slate-500">In attesa di scheduling…</li>';
+
+        logsEl.innerHTML = (task.node_logs?.execution?.fragment_runs || []).slice(0, 6).map((row) =>
+          `<li><code>${row.fragment_id}</code> → ${row.node_id} (${row.execution_ms}ms)</li>`
+        ).join('') || '<li class="text-slate-500">In attesa di execution logs…</li>';
+
+        downloadBtn.disabled = !task.audit_trail;
+      }
+
+      async function fetchStatus(taskId) {
+        const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload.error || 'Unable to fetch task status');
+        return payload.task;
+      }
+
+      async function startTask() {
+        clearError();
+        const imageId = Number(document.getElementById('imageId').value);
+
+        try {
+          const res = await fetch(`${API_BASE}/start-task`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image_id: imageId })
+          });
+          const payload = await res.json();
+          if (!res.ok) throw new Error(payload.error || 'Unable to start demo task');
+
+          renderTask(payload.task);
+          if (pollTimer) clearInterval(pollTimer);
+          pollTimer = setInterval(async () => {
+            try {
+              const task = await fetchStatus(payload.task.id);
+              renderTask(task);
+              if (task.status === 'COMPLETED') clearInterval(pollTimer);
+            } catch (err) {
+              showError(err.message);
+              clearInterval(pollTimer);
+            }
+          }, 1500);
+        } catch (err) {
+          showError(err.message);
+        }
+      }
+
+      document.getElementById('startBtn').addEventListener('click', startTask);
+      downloadBtn.addEventListener('click', () => {
+        if (!currentTask?.audit_trail) return;
+        const blob = new Blob([JSON.stringify(currentTask.audit_trail, null, 2)], { type: 'application/json' });
+        const href = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = href;
+        a.download = `audit-trail-${currentTask.id}.json`;
+        a.click();
+        URL.revokeObjectURL(href);
+      });
+
+      renderSteps('SUBMITTING');
+    </script>
+  </body>
+</html>
