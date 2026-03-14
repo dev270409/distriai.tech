@@ -28,7 +28,8 @@ Functional backend integration for contact flows, Supabase persistence, admin pr
 |-- database/
 |   |-- schema.sql
 |   `-- migrations/
-|       `-- 20260305_contact_forms_and_admin.sql
+|       |-- 20260305_contact_forms_and_admin.sql
+|       `-- 20260314_demo_tasks.sql
 `-- frontend/public/
     |-- admin.html
     `-- index.html
@@ -60,12 +61,14 @@ Notes:
 ## Supabase setup
 
 1. Create a Supabase project.
-2. Open SQL editor and run:
+2. Open SQL editor and run (in order):
    - `database/migrations/20260305_contact_forms_and_admin.sql`
+   - `database/migrations/20260314_demo_tasks.sql`
 3. Confirm tables:
    - `pilot_requests`
    - `node_waitlist`
    - `newsletter_subscribers`
+   - `demo_tasks`
 
 ## API routes
 
@@ -78,6 +81,9 @@ Notes:
 - `GET /api/admin?action=stats`
 - `POST /api/admin` (status updates)
 - `GET /api/public-config`
+- `POST /api/demo/start-task`
+- `GET /api/demo/task-status?task_id=<uuid>`
+- Static demo page: `pilot-demo.html` (served as `/pilot-demo.html`, source mirrored from `frontend/public/pilot-demo.html`)
 
 Implemented:
 - Input validation
