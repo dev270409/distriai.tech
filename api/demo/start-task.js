@@ -1,6 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { getServiceSupabase } from '../_lib/supabase.js';
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
 import { saveMemoryTask } from '../_lib/demo-task-store.js';
+
+ main
 import { getBody, getClientIp, isRateLimited, setCors } from '../_lib/request.js';
 import { buildDemoTaskPayload, getTaskProjection } from '../_lib/demo-simulation.js';
 
@@ -34,6 +37,10 @@ export default async function handler(req, res) {
 
     const taskId = randomUUID();
     const { nodeLogs, auditTrail } = buildDemoTaskPayload(imageId, taskId);
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
+
+    const supabase = getServiceSupabase();
+ main
 
     const insertPayload = {
       id: taskId,
@@ -44,6 +51,7 @@ export default async function handler(req, res) {
       audit_trail: auditTrail
     };
 
+ codex/integrate-pilot-demo-for-1000-images-8klg5c
     const nowIso = new Date().toISOString();
 
     try {
@@ -83,5 +91,25 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('demo/start-task error:', error);
     return res.status(500).json({ error: `Failed to start demo task: ${error.message}` });
+
+    const { data, error } = await supabase
+      .from('demo_tasks')
+      .insert([insertPayload])
+      .select('id, image_id, image_url, status, node_logs, audit_trail, created_at, updated_at')
+      .single();
+
+    if (error) {
+      console.error('demo_tasks insert error:', error);
+      return res.status(500).json({ error: 'Failed to start demo task.' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      task: getTaskProjection(data)
+    });
+  } catch (error) {
+    console.error('demo/start-task error:', error);
+    return res.status(500).json({ error: 'Internal server error.' });
+ main
   }
 }
