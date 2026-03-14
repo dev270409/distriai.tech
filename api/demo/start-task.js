@@ -1,5 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { getServiceSupabase } from '../_lib/supabase.js';
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+import { saveMemoryTask } from '../_lib/demo-task-store.js';
+
  codex/integrate-pilot-demo-for-1000-images-8klg5c
 import { saveMemoryTask } from '../_lib/demo-task-store.js';
 
@@ -37,9 +40,12 @@ export default async function handler(req, res) {
 
     const taskId = randomUUID();
     const { nodeLogs, auditTrail } = buildDemoTaskPayload(imageId, taskId);
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
  codex/integrate-pilot-demo-for-1000-images-8klg5c
 
     const supabase = getServiceSupabase();
+ main
  main
 
     const insertPayload = {
@@ -51,7 +57,10 @@ export default async function handler(req, res) {
       audit_trail: auditTrail
     };
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
  codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
     const nowIso = new Date().toISOString();
 
     try {
@@ -91,6 +100,8 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('demo/start-task error:', error);
     return res.status(500).json({ error: `Failed to start demo task: ${error.message}` });
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
 
     const { data, error } = await supabase
       .from('demo_tasks')

@@ -67,9 +67,24 @@
     <script>
       const API_BASE = '/api/demo';
       const STEPS = ['SUBMITTING', 'FRAGMENTING', 'SCHEDULING', 'EXECUTING', 'VALIDATING', 'COMPLETED'];
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+      const STAGE_WINDOWS_MS = {
+        SUBMITTING: 0,
+        FRAGMENTING: 4000,
+        SCHEDULING: 9000,
+        EXECUTING: 16000,
+        VALIDATING: 22000,
+        COMPLETED: 27000
+      };
 
       let currentTask = null;
       let pollTimer = null;
+      let localMode = false;
+
+
+      let currentTask = null;
+      let pollTimer = null;
+ main
 
       const stepsEl = document.getElementById('steps');
       const progressBarEl = document.getElementById('progressBar');
@@ -82,6 +97,16 @@
       const errorEl = document.getElementById('error');
       const taskMetaEl = document.getElementById('taskMeta');
       const downloadBtn = document.getElementById('downloadAudit');
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+      const startBtn = document.getElementById('startBtn');
+
+      function setLoading(isLoading) {
+        startBtn.disabled = isLoading;
+        startBtn.classList.toggle('opacity-70', isLoading);
+        startBtn.textContent = isLoading ? 'Starting...' : 'Start Demo Task';
+      }
+
+ main
 
       function showError(message) {
         errorEl.textContent = message;
@@ -90,6 +115,10 @@
 
       function clearError() {
         errorEl.classList.add('hidden');
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+        errorEl.textContent = '';
+
+ main
       }
 
       function renderSteps(status) {
@@ -107,7 +136,11 @@
         consensusHashEl.textContent = task.audit_trail?.hashes?.consensus_hash || '-';
         progressBarEl.style.width = `${task.progress_pct || 0}%`;
         progressLabelEl.textContent = `${task.progress_pct || 0}%`;
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+        taskMetaEl.textContent = `task_id: ${task.id}${localMode ? ' (local mode)' : ''}`;
+
         taskMetaEl.textContent = `task_id: ${task.id}`;
+ main
         renderSteps(task.status);
 
         nodesEl.innerHTML = (task.node_logs?.scheduling?.selected_nodes || []).slice(0, 4).map((node) =>
@@ -121,7 +154,75 @@
         downloadBtn.disabled = !task.audit_trail;
       }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+      function randomId(prefix) {
+        return `${prefix}-${Math.random().toString(16).slice(2, 10)}`;
+      }
+
+      function localStatusByElapsed(elapsedMs) {
+        if (elapsedMs >= STAGE_WINDOWS_MS.COMPLETED) return 'COMPLETED';
+        if (elapsedMs >= STAGE_WINDOWS_MS.VALIDATING) return 'VALIDATING';
+        if (elapsedMs >= STAGE_WINDOWS_MS.EXECUTING) return 'EXECUTING';
+        if (elapsedMs >= STAGE_WINDOWS_MS.SCHEDULING) return 'SCHEDULING';
+        if (elapsedMs >= STAGE_WINDOWS_MS.FRAGMENTING) return 'FRAGMENTING';
+        return 'SUBMITTING';
+      }
+
+      function buildLocalTask(imageId) {
+        const taskId = crypto.randomUUID ? crypto.randomUUID() : randomId('task');
+        const now = Date.now();
+        const nodes = [1, 2, 3, 4].map((n) => ({
+          node_id: `node-${String(imageId).padStart(4, '0')}-${n}`,
+          reputation: (0.82 + n * 0.03).toFixed(3),
+          sybil_score: (0.76 + n * 0.04).toFixed(3),
+          stake_weight: (0.58 + n * 0.07).toFixed(3)
+        }));
+
+        const fragmentRuns = Array.from({ length: 6 }).map((_, idx) => ({
+          fragment_id: `img-${imageId}-frag-${String(idx + 1).padStart(2, '0')}`,
+          node_id: nodes[idx % nodes.length].node_id,
+          execution_ms: 60 + idx * 13
+        }));
+
+        return {
+          id: taskId,
+          image_id: imageId,
+          image_url: `https://cdn.distriai.tech/demo-images/${imageId}.jpg`,
+          status: 'SUBMITTING',
+          progress_pct: 0,
+          created_at: new Date(now).toISOString(),
+          audit_trail: {
+            hashes: {
+              consensus_hash: `0x${Math.random().toString(16).slice(2).padEnd(64, '0').slice(0,64)}`
+            },
+            proof_mode: 'EXECUTION_TRACE_HASH'
+          },
+          node_logs: {
+            scheduling: { selected_nodes: nodes },
+            execution: { fragment_runs: fragmentRuns }
+          }
+        };
+      }
+
+      function startLocalSimulation(task) {
+        localMode = true;
+        renderTask(task);
+
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = setInterval(() => {
+          const elapsedMs = Date.now() - new Date(task.created_at).getTime();
+          task.status = localStatusByElapsed(elapsedMs);
+          task.progress_pct = Math.min(100, Math.round((elapsedMs / STAGE_WINDOWS_MS.COMPLETED) * 100));
+          renderTask(task);
+          if (task.status === 'COMPLETED') {
+            clearInterval(pollTimer);
+          }
+        }, 1000);
+      }
+
+
  codex/integrate-pilot-demo-for-1000-images-8klg5c
+ main
       async function safeJson(response) {
         try {
           return await response.json();
@@ -134,11 +235,14 @@
         const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
         const payload = await safeJson(res);
         if (!res.ok) throw new Error(payload.error || `Unable to fetch task status (HTTP ${res.status})`);
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
 
       async function fetchStatus(taskId) {
         const res = await fetch(`${API_BASE}/task-status?task_id=${encodeURIComponent(taskId)}`);
         const payload = await res.json();
         if (!res.ok) throw new Error(payload.error || 'Unable to fetch task status');
+ main
  main
         return payload.task;
       }
@@ -147,24 +251,41 @@
         clearError();
         const imageId = Number(document.getElementById('imageId').value);
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+        if (!Number.isInteger(imageId) || imageId < 1 || imageId > 1000) {
+          showError('Image ID deve essere un intero tra 1 e 1000.');
+          return;
+        }
+
+        setLoading(true);
+
+ main
         try {
           const res = await fetch(`${API_BASE}/start-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_id: imageId })
           });
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+          const payload = await safeJson(res);
+          if (!res.ok) throw new Error(payload.error || `Unable to start demo task (HTTP ${res.status})`);
+
+          localMode = payload.storage === 'memory';
+
  codex/integrate-pilot-demo-for-1000-images-8klg5c
           const payload = await safeJson(res);
           if (!res.ok) throw new Error(payload.error || `Unable to start demo task (HTTP ${res.status})`);
 
+ main
           if (payload.warning) {
             showError(payload.warning);
           }
 
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+
           const payload = await res.json();
           if (!res.ok) throw new Error(payload.error || 'Unable to start demo task');
  main
-
           renderTask(payload.task);
           if (pollTimer) clearInterval(pollTimer);
           pollTimer = setInterval(async () => {
@@ -178,11 +299,22 @@
             }
           }, 1500);
         } catch (err) {
+ codex/integrate-pilot-demo-for-1000-images-brmkkq
+          showError(`API non disponibile: avvio simulazione locale. (${err.message})`);
+          startLocalSimulation(buildLocalTask(imageId));
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      startBtn.addEventListener('click', startTask);
+
           showError(err.message);
         }
       }
 
       document.getElementById('startBtn').addEventListener('click', startTask);
+ main
       downloadBtn.addEventListener('click', () => {
         if (!currentTask?.audit_trail) return;
         const blob = new Blob([JSON.stringify(currentTask.audit_trail, null, 2)], { type: 'application/json' });
