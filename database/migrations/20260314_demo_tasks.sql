@@ -1,40 +1,8 @@
-﻿-- DISTRIAI Database Schema
--- Run this in Supabase SQL Editor
+-- 20260314_demo_tasks.sql
+-- Pilot demo workflow (1000 images): task lifecycle + simulated distributed logs
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-CREATE TABLE IF NOT EXISTS pilot_requests (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    name text NOT NULL,
-    email text NOT NULL,
-    role text,
-    company text,
-    message text,
-    created_at timestamptz NOT NULL DEFAULT now(),
-    status text NOT NULL DEFAULT 'new'
-);
-
-CREATE TABLE IF NOT EXISTS node_waitlist (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    name text NOT NULL,
-    email text NOT NULL,
-    gpu_type text,
-    country text,
-    created_at timestamptz NOT NULL DEFAULT now(),
-    status text NOT NULL DEFAULT 'new'
-);
-
-CREATE TABLE IF NOT EXISTS newsletter_subscribers (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    email text NOT NULL,
-    created_at timestamptz NOT NULL DEFAULT now()
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS newsletter_subscribers_email_key ON newsletter_subscribers(email);
-CREATE INDEX IF NOT EXISTS idx_pilot_requests_created_at ON pilot_requests(created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_node_waitlist_created_at ON node_waitlist(created_at DESC);
-
--- Demo tasks for 1000-image pilot
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'demo_task_status') THEN
@@ -60,7 +28,6 @@ CREATE TABLE IF NOT EXISTS demo_tasks (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
-
 
 CREATE INDEX IF NOT EXISTS demo_tasks_status_idx ON demo_tasks (status);
 CREATE INDEX IF NOT EXISTS demo_tasks_created_at_idx ON demo_tasks (created_at DESC);
