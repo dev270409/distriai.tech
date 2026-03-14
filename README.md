@@ -66,6 +66,7 @@ Notes:
    - `pilot_requests`
    - `node_waitlist`
    - `newsletter_subscribers`
+   - `demo_tasks`
 
 ## API routes
 
@@ -78,6 +79,8 @@ Notes:
 - `GET /api/admin?action=stats`
 - `POST /api/admin` (status updates)
 - `GET /api/public-config`
+- `POST /api/demo/start-task`
+- `GET /api/demo/task-status?task_id=<uuid>`
 
 Implemented:
 - Input validation
