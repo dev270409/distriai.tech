@@ -60,9 +60,12 @@ CREATE TABLE IF NOT EXISTS demo_tasks (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
 codex/integrate-pilot-demo-for-1000-images-cwnjh6
 
  codex/integrate-pilot-demo-for-1000-images
+ main
  main
 
 
@@ -85,6 +88,9 @@ CREATE TRIGGER demo_tasks_set_updated_at
 BEFORE UPDATE ON demo_tasks
 FOR EACH ROW
 EXECUTE FUNCTION set_demo_tasks_updated_at();
+ codex/integrate-pilot-demo-for-1000-images-a82m8c
+
  codex/integrate-pilot-demo-for-1000-images-cwnjh6
 
+ main
  main

@@ -83,10 +83,14 @@ Notes:
 - `GET /api/public-config`
 - `POST /api/demo/start-task`
 - `GET /api/demo/task-status?task_id=<uuid>`
+codex/integrate-pilot-demo-for-1000-images-a82m8c
+- Static demo page: `frontend/public/pilot-demo.html` (served as `/pilot-demo.html`)
+
  codex/integrate-pilot-demo-for-1000-images-cwnjh6
 - Static demo page: `frontend/public/pilot-demo.html` (served as `/pilot-demo.html`)
 
 main
+ main
 
 Implemented:
 - Input validation
