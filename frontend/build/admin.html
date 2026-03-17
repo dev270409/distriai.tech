@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - DISTRIAI</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0f0f0f',
+                        darker: '#0a0a0a',
+                        'brand-green': '#6d9674',
+                        'brand-light': '#c1e8c5',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-gray-200 font-sans antialiased min-h-screen">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center px-6">
+        <div class="max-w-md w-full">
+            <div class="text-center mb-8">
+                <a href="/">
+                    <img src="logo.png" alt="DISTRIAI" class="h-16 mx-auto mb-4">
+                </a>
+                <h1 class="font-display text-2xl text-white font-semibold">Admin Panel</h1>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Password</label>
+                    <input type="password" id="adminPassword" required
+                        class="w-full px-4 py-3 rounded-lg bg-gray-900/50 border border-gray-800 text-white placeholder-gray-600 focus:outline-none focus:border-brand-green/50"
+                        placeholder="Enter admin password">
+                </div>
+                <button type="submit" class="w-full px-6 py-3 bg-brand-green text-white font-semibold rounded-lg hover:bg-brand-green/80 transition-colors">
+                    Login
+                </button>
+                <p id="loginError" class="text-red-400 text-sm text-center hidden">Invalid password</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="hidden">
+        <nav class="bg-darker border-b border-gray-800 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <a href="/">
+                        <img src="logo.png" alt="DISTRIAI" class="h-8">
+                    </a>
+                    <span class="text-gray-400">Admin Panel</span>
+                </div>
+                <button onclick="logout()" class="text-sm text-gray-400 hover:text-white transition-colors">
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/30">
+                    <p class="text-gray-400 text-sm mb-1">Pilot Requests</p>
+                    <p id="pilotCount" class="text-3xl font-display font-semibold text-white">-</p>
+                </div>
+                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/30">
+                    <p class="text-gray-400 text-sm mb-1">Node Waitlist</p>
+                    <p id="nodeCount" class="text-3xl font-display font-semibold text-white">-</p>
+                </div>
+                <div class="p-6 rounded-xl border border-gray-800 bg-gray-900/30">
+                    <p class="text-gray-400 text-sm mb-1">Newsletter Subscribers</p>
+                    <p id="subscriberCount" class="text-3xl font-display font-semibold text-white">-</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex gap-4 mb-6 border-b border-gray-800">
+                <button onclick="showTab('pilots')" id="tabPilots" class="px-4 py-2 text-sm font-medium border-b-2 border-brand-green text-brand-light">
+                    Pilot Requests
+                </button>
+                <button onclick="showTab('nodes')" id="tabNodes" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white">
+                    Node Waitlist
+                </button>
+                <button onclick="showTab('newsletter')" id="tabNewsletter" class="px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white">
+                    Newsletter
+                </button>
+            </div>
+
+            <!-- Tables -->
+            <div id="pilotsTable" class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-800">
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Name</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Email</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Role</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Company</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pilotsBody"></tbody>
+                </table>
+            </div>
+
+            <div id="nodesTable" class="overflow-x-auto hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-800">
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Name</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Email</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">GPU Type</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Country</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nodesBody"></tbody>
+                </table>
+            </div>
+
+            <div id="newsletterTable" class="overflow-x-auto hidden">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-gray-800">
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Email</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="newsletterBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+            const loginError = document.getElementById('loginError');
+            loginError.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/admin-login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                if (!response.ok) {
+                    loginError.classList.remove('hidden');
+                    return;
+                }
+
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                document.getElementById('adminPassword').value = '';
+                loadData();
+            } catch (error) {
+                loginError.classList.remove('hidden');
+            }
+        });
+
+        async function logout() {
+            try {
+                await fetch('/api/admin-logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (error) {
+                // Keep logout flow resilient even on network errors.
+            }
+
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/admin?action=stats', {
+                    credentials: 'include'
+                });
+                if (!response.ok) {
+                    document.getElementById('adminDashboard').classList.add('hidden');
+                    document.getElementById('loginScreen').classList.remove('hidden');
+                    return;
+                }
+                const data = await response.json();
+                
+                document.getElementById('pilotCount').textContent = data.pilot_count || 0;
+                document.getElementById('nodeCount').textContent = data.node_count || 0;
+                document.getElementById('subscriberCount').textContent = data.subscriber_count || 0;
+                
+                renderPilots(data.pilot_requests || []);
+                renderNodes(data.node_waitlist || []);
+                renderNewsletter(data.newsletter_subscribers || []);
+            } catch (error) {
+                console.error('Failed to load data:', error);
+            }
+        }
+        
+        function renderPilots(pilots) {
+            const tbody = document.getElementById('pilotsBody');
+            tbody.innerHTML = pilots.map(p => `
+                <tr class="border-b border-gray-800/50 hover:bg-gray-900/30">
+                    <td class="py-3 px-4 text-white">${escapeHtml(p.name)}</td>
+                    <td class="py-3 px-4"><a href="mailto:${escapeHtml(p.email)}" class="text-brand-light hover:underline">${escapeHtml(p.email)}</a></td>
+                    <td class="py-3 px-4 text-gray-400">${escapeHtml(p.role || '-')}</td>
+                    <td class="py-3 px-4 text-gray-400">${escapeHtml(p.company || '-')}</td>
+                    <td class="py-3 px-4 text-gray-500">${formatDate(p.created_at)}</td>
+                    <td class="py-3 px-4">
+                        <select onchange="updateStatus('pilot_requests', '${p.id}', this.value)" 
+                            class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm ${getStatusColor(p.status)}">
+                            <option value="new" ${p.status === 'new' ? 'selected' : ''}>New</option>
+                            <option value="contacted" ${p.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                            <option value="in_call" ${p.status === 'in_call' ? 'selected' : ''}>In Call</option>
+                            <option value="closed" ${p.status === 'closed' ? 'selected' : ''}>Closed</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderNodes(nodes) {
+            const tbody = document.getElementById('nodesBody');
+            tbody.innerHTML = nodes.map(n => `
+                <tr class="border-b border-gray-800/50 hover:bg-gray-900/30">
+                    <td class="py-3 px-4 text-white">${escapeHtml(n.name)}</td>
+                    <td class="py-3 px-4"><a href="mailto:${escapeHtml(n.email)}" class="text-brand-light hover:underline">${escapeHtml(n.email)}</a></td>
+                    <td class="py-3 px-4 text-gray-400">${escapeHtml(n.gpu_type || '-')}</td>
+                    <td class="py-3 px-4 text-gray-400">${escapeHtml(n.country || '-')}</td>
+                    <td class="py-3 px-4 text-gray-500">${formatDate(n.created_at)}</td>
+                    <td class="py-3 px-4">
+                        <select onchange="updateStatus('node_waitlist', '${n.id}', this.value)"
+                            class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm ${getStatusColor(n.status)}">
+                            <option value="new" ${n.status === 'new' ? 'selected' : ''}>New</option>
+                            <option value="contacted" ${n.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+                            <option value="approved" ${n.status === 'approved' ? 'selected' : ''}>Approved</option>
+                            <option value="active" ${n.status === 'active' ? 'selected' : ''}>Active</option>
+                            <option value="inactive" ${n.status === 'inactive' ? 'selected' : ''}>Inactive</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderNewsletter(subscribers) {
+            const tbody = document.getElementById('newsletterBody');
+            tbody.innerHTML = subscribers.map(s => `
+                <tr class="border-b border-gray-800/50 hover:bg-gray-900/30">
+                    <td class="py-3 px-4"><a href="mailto:${escapeHtml(s.email)}" class="text-brand-light hover:underline">${escapeHtml(s.email)}</a></td>
+                    <td class="py-3 px-4 text-gray-500">${formatDate(s.created_at)}</td>
+                </tr>
+            `).join('');
+        }
+        
+        async function updateStatus(table, id, status) {
+            try {
+                await fetch('/api/admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ table, id, status })
+                });
+            } catch (error) {
+                console.error('Failed to update status:', error);
+            }
+        }
+        
+        function showTab(tab) {
+            document.getElementById('pilotsTable').classList.add('hidden');
+            document.getElementById('nodesTable').classList.add('hidden');
+            document.getElementById('newsletterTable').classList.add('hidden');
+            
+            document.getElementById('tabPilots').classList.remove('border-brand-green', 'text-brand-light');
+            document.getElementById('tabPilots').classList.add('border-transparent', 'text-gray-400');
+            document.getElementById('tabNodes').classList.remove('border-brand-green', 'text-brand-light');
+            document.getElementById('tabNodes').classList.add('border-transparent', 'text-gray-400');
+            document.getElementById('tabNewsletter').classList.remove('border-brand-green', 'text-brand-light');
+            document.getElementById('tabNewsletter').classList.add('border-transparent', 'text-gray-400');
+            
+            if (tab === 'pilots') {
+                document.getElementById('pilotsTable').classList.remove('hidden');
+                document.getElementById('tabPilots').classList.add('border-brand-green', 'text-brand-light');
+                document.getElementById('tabPilots').classList.remove('border-transparent', 'text-gray-400');
+            } else if (tab === 'nodes') {
+                document.getElementById('nodesTable').classList.remove('hidden');
+                document.getElementById('tabNodes').classList.add('border-brand-green', 'text-brand-light');
+                document.getElementById('tabNodes').classList.remove('border-transparent', 'text-gray-400');
+            } else if (tab === 'newsletter') {
+                document.getElementById('newsletterTable').classList.remove('hidden');
+                document.getElementById('tabNewsletter').classList.add('border-brand-green', 'text-brand-light');
+                document.getElementById('tabNewsletter').classList.remove('border-transparent', 'text-gray-400');
+            }
+        }
+        
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'short', day: 'numeric' 
+            });
+        }
+        
+        function getStatusColor(status) {
+            const colors = {
+                'new': 'text-yellow-400',
+                'contacted': 'text-blue-400',
+                'in_call': 'text-purple-400',
+                'approved': 'text-green-400',
+                'active': 'text-brand-light',
+                'closed': 'text-gray-500',
+                'inactive': 'text-gray-500'
+            };
+            return colors[status] || 'text-gray-400';
+        }
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function checkExistingSession() {
+            try {
+                const response = await fetch('/api/admin-session', {
+                    credentials: 'include'
+                });
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+                if (data.authenticated) {
+                    document.getElementById('loginScreen').classList.add('hidden');
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    loadData();
+                }
+            } catch (error) {
+                // default to login screen
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkExistingSession);
+    </script>
+</body>
+</html>
